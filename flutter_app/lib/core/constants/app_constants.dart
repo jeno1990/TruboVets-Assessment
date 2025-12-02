@@ -34,7 +34,6 @@ class AppConstants {
 
   /// WebView URL for the Angular dashboard
   /// Use localhost for iOS simulator, 10.0.2.2 for Android emulator
-  static const String dashboardUrlIOS =
-      'https://learning.h3nok.dev/'; //'http://localhost:4200';
+  static const String dashboardUrlIOS = 'http://localhost:4200';
   static const String dashboardUrlAndroid = 'http://10.0.2.2:4200';
 }
