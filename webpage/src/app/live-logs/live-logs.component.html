@@ -1,1 +1,17 @@
-<p>live-logs works!</p>
+<div class="bg-gray-900 text-green-400 shadow rounded-lg p-6 h-full flex flex-col font-mono">
+  <div class="flex justify-between items-center mb-4 border-b border-gray-700 pb-2">
+    <h2 class="text-xl font-bold">Live System Logs</h2>
+    <button (click)="clearLogs()" class="text-xs border border-green-600 px-2 py-1 rounded hover:bg-green-900 transition-colors">
+      Clear
+    </button>
+  </div>
+
+  <div #logContainer class="flex-1 overflow-y-auto space-y-1 p-2 bg-black rounded">
+    <div *ngFor="let log of logs" class="break-all">
+      <span class="text-green-600 mr-2">&gt;</span>{{ log }}
+    </div>
+    <div *ngIf="logs.length === 0" class="text-gray-600 italic">
+      Waiting for logs...
+    </div>
+  </div>
+</div>
