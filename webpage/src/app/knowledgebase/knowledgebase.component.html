@@ -1,1 +1,30 @@
-<p>knowledgebase works!</p>
+<div class="bg-white shadow rounded-lg p-6 h-full flex flex-col">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-2xl font-bold text-gray-800">Knowledgebase Editor</h2>
+    <div class="flex items-center space-x-4">
+      <span *ngIf="lastSaved" class="text-sm text-green-600">
+        Saved at {{ lastSaved | date:'mediumTime' }}
+      </span>
+      <button (click)="togglePreview()"
+        class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 transition-colors">
+        {{ isPreviewMode ? 'Edit' : 'Preview' }}
+      </button>
+      <button (click)="save()"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+        Save
+      </button>
+    </div>
+  </div>
+
+  <div class="flex-1 relative border rounded-lg overflow-hidden">
+    <textarea *ngIf="!isPreviewMode"
+      [(ngModel)]="content"
+      class="w-full h-full p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="Type your markdown here..."></textarea>
+    
+    <div *ngIf="isPreviewMode" class="w-full h-full p-4 overflow-auto prose max-w-none">
+      <!-- Minimal preview: just preserving whitespace. For real markdown, we'd use a library. -->
+      <pre class="whitespace-pre-wrap font-sans">{{ content }}</pre>
+    </div>
+  </div>
+</div>
