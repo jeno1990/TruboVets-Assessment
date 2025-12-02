@@ -45,6 +45,10 @@ dependencies:
   # WebView for embedded Angular dashboard
   webview_flutter: ^4.13.0
 
+  # Local storage (Hive Community Edition - maintained fork)
+  hive_ce: ^2.11.3
+  hive_ce_flutter: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
