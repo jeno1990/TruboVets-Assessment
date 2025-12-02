@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 /// A text input widget for composing and sending messages.
+/// Supports both text and image messages.
 class MessageInput extends StatefulWidget {
-  /// Callback when a message is sent
-  final void Function(String message) onSend;
+  /// Callback when a text message is sent
+  final void Function(String message) onSendText;
+
+  /// Callback when an image is selected
+  final void Function(String imagePath) onSendImage;
 
   /// Whether the send button should be disabled
   final bool isDisabled;
 
   const MessageInput({
     super.key,
-    required this.onSend,
+    required this.onSendText,
+    required this.onSendImage,
     this.isDisabled = false,
   });
 
@@ -21,6 +27,7 @@ class MessageInput extends StatefulWidget {
 class _MessageInputState extends State<MessageInput> {
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
+  final ImagePicker _imagePicker = ImagePicker();
   bool _hasText = false;
 
   @override
@@ -47,9 +54,88 @@ class _MessageInputState extends State<MessageInput> {
   void _handleSend() {
     if (_controller.text.trim().isEmpty || widget.isDisabled) return;
 
-    widget.onSend(_controller.text);
+    widget.onSendText(_controller.text);
     _controller.clear();
     _focusNode.requestFocus();
+  }
+
+  Future<void> _handleImagePick() async {
+    if (widget.isDisabled) return;
+
+    final colorScheme = Theme.of(context).colorScheme;
+
+    // Show bottom sheet to choose source
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: colorScheme.onSurfaceVariant.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.camera_alt_rounded,
+                    color: colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                title: const Text('Take Photo'),
+                onTap: () => Navigator.pop(context, ImageSource.camera),
+              ),
+              ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: colorScheme.secondaryContainer,
+                  child: Icon(
+                    Icons.photo_library_rounded,
+                    color: colorScheme.onSecondaryContainer,
+                  ),
+                ),
+                title: const Text('Choose from Gallery'),
+                onTap: () => Navigator.pop(context, ImageSource.gallery),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    if (source == null) return;
+
+    try {
+      final XFile? image = await _imagePicker.pickImage(
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 85,
+      );
+
+      if (image != null) {
+        widget.onSendImage(image.path);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to pick image: $e'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -58,7 +144,7 @@ class _MessageInputState extends State<MessageInput> {
 
     return Container(
       padding: EdgeInsets.only(
-        left: 16,
+        left: 8,
         right: 8,
         top: 8,
         bottom: MediaQuery.of(context).padding.bottom + 8,
@@ -76,6 +162,16 @@ class _MessageInputState extends State<MessageInput> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          // Image picker button
+          IconButton(
+            onPressed: widget.isDisabled ? null : _handleImagePick,
+            style: IconButton.styleFrom(
+              foregroundColor: colorScheme.onSurfaceVariant,
+            ),
+            icon: const Icon(Icons.image_rounded),
+            tooltip: 'Send image',
+          ),
+          // Text input
           Expanded(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 120),
@@ -95,27 +191,23 @@ class _MessageInputState extends State<MessageInput> {
               ),
             ),
           ),
-          const SizedBox(width: 8),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            child: IconButton(
-              onPressed:
-                  (_hasText && !widget.isDisabled) ? _handleSend : null,
-              style: IconButton.styleFrom(
-                backgroundColor: (_hasText && !widget.isDisabled)
-                    ? colorScheme.primary
-                    : colorScheme.surfaceContainerHighest,
-                foregroundColor: (_hasText && !widget.isDisabled)
-                    ? colorScheme.onPrimary
-                    : colorScheme.onSurfaceVariant.withOpacity(0.5),
-                minimumSize: const Size(48, 48),
-              ),
-              icon: const Icon(Icons.send_rounded),
+          const SizedBox(width: 4),
+          // Send button
+          IconButton(
+            onPressed: (_hasText && !widget.isDisabled) ? _handleSend : null,
+            style: IconButton.styleFrom(
+              backgroundColor: (_hasText && !widget.isDisabled)
+                  ? colorScheme.primary
+                  : colorScheme.surfaceContainerHighest,
+              foregroundColor: (_hasText && !widget.isDisabled)
+                  ? colorScheme.onPrimary
+                  : colorScheme.onSurfaceVariant.withOpacity(0.5),
+              minimumSize: const Size(48, 48),
             ),
+            icon: const Icon(Icons.send_rounded),
           ),
         ],
       ),
     );
   }
 }
-

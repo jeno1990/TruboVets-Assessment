@@ -49,6 +49,9 @@ dependencies:
   hive_ce: ^2.11.3
   hive_ce_flutter: ^2.2.0
 
+  # Image picker for sending images in chat
+  image_picker: ^1.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

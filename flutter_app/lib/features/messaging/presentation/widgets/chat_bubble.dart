@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -5,7 +7,7 @@ import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/message.dart';
 
 /// A chat bubble widget that displays a message with appropriate styling
-/// for user and agent messages.
+/// for user and agent messages. Supports both text and image messages.
 class ChatBubble extends StatelessWidget {
   final Message message;
 
@@ -37,13 +39,10 @@ class ChatBubble extends StatelessWidget {
                   constraints: BoxConstraints(
                     maxWidth: MediaQuery.of(context).size.width * 0.75,
                   ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
-                  ),
                   decoration: BoxDecoration(
-                    color:
-                        isUser ? colorScheme.userBubble : colorScheme.agentBubble,
+                    color: isUser
+                        ? colorScheme.userBubble
+                        : colorScheme.agentBubble,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(20),
                       topRight: const Radius.circular(20),
@@ -58,16 +57,9 @@ class ChatBubble extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Text(
-                    message.text,
-                    style: TextStyle(
-                      color: isUser
-                          ? colorScheme.onUserBubble
-                          : colorScheme.onAgentBubble,
-                      fontSize: 15,
-                      height: 1.4,
-                    ),
-                  ),
+                  child: message.isImage
+                      ? _buildImageContent(context)
+                      : _buildTextContent(context),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -83,6 +75,94 @@ class ChatBubble extends StatelessWidget {
           const SizedBox(width: 8),
           if (isUser) _buildAvatar(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTextContent(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final isUser = message.isFromUser;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Text(
+        message.text,
+        style: TextStyle(
+          color: isUser ? colorScheme.onUserBubble : colorScheme.onAgentBubble,
+          fontSize: 15,
+          height: 1.4,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageContent(BuildContext context) {
+    final imagePath = message.imagePath;
+    if (imagePath == null) {
+      return const Padding(
+        padding: EdgeInsets.all(16),
+        child: Icon(Icons.broken_image_rounded, size: 48),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.only(
+        topLeft: const Radius.circular(20),
+        topRight: const Radius.circular(20),
+        bottomLeft: Radius.circular(message.isFromUser ? 20 : 4),
+        bottomRight: Radius.circular(message.isFromUser ? 4 : 20),
+      ),
+      child: GestureDetector(
+        onTap: () => _showFullImage(context, imagePath),
+        child: Image.file(
+          File(imagePath),
+          width: 200,
+          height: 200,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              width: 200,
+              height: 100,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: const Center(
+                child: Icon(Icons.broken_image_rounded, size: 48),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  void _showFullImage(BuildContext context, String imagePath) {
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.file(
+                File(imagePath),
+                fit: BoxFit.contain,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: IconButton(
+                onPressed: () => Navigator.pop(context),
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.black54,
+                  foregroundColor: Colors.white,
+                ),
+                icon: const Icon(Icons.close_rounded),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -112,9 +192,9 @@ class ChatBubble extends StatelessWidget {
         DateTime(timestamp.year, timestamp.month, timestamp.day);
 
     if (messageDate == today) {
-      return DateFormat.jm().format(timestamp); // e.g., "2:30 PM"
+      return DateFormat.jm().format(timestamp);
     } else {
-      return DateFormat.MMMd().add_jm().format(timestamp); // e.g., "Jan 5, 2:30 PM"
+      return DateFormat.MMMd().add_jm().format(timestamp);
     }
   }
 }
@@ -213,4 +293,3 @@ class _TypingIndicatorState extends State<TypingIndicator>
     );
   }
 }
-

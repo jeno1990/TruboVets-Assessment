@@ -30,23 +30,23 @@ class _AppShellState extends State<AppShell> {
               ? AppConstants.messagesLabel
               : AppConstants.dashboardLabel,
         ),
-        actions: [
-          if (_currentIndex == 0)
-            BlocBuilder<MessageCubit, MessageState>(
-              builder: (context, state) {
-                final hasMessages =
-                    state is MessageLoaded && state.messages.isNotEmpty;
+        // actions: [
+        //   if (_currentIndex == 0)
+        //     BlocBuilder<MessageCubit, MessageState>(
+        //       builder: (context, state) {
+        //         final hasMessages =
+        //             state is MessageLoaded && state.messages.isNotEmpty;
 
-                if (!hasMessages) return const SizedBox.shrink();
+        //         if (!hasMessages) return const SizedBox.shrink();
 
-                return IconButton(
-                  onPressed: () => _showClearMessagesDialog(context),
-                  icon: const Icon(Icons.delete_outline_rounded),
-                  tooltip: 'Clear messages',
-                );
-              },
-            ),
-        ],
+        //         return IconButton(
+        //           onPressed: () => _showClearMessagesDialog(context),
+        //           icon: const Icon(Icons.delete_outline_rounded),
+        //           tooltip: 'Clear messages',
+        //         );
+        //       },
+        //     ),
+        // ],
       ),
       drawer: _buildSettingsDrawer(context),
       body: IndexedStack(index: _currentIndex, children: _pages),

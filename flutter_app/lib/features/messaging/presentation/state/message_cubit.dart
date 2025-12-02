@@ -23,7 +23,7 @@ class MessageCubit extends Cubit<MessageState> {
     emit(MessageLoaded(messages: messages));
   }
 
-  /// Sends a user message and triggers simulated agent response
+  /// Sends a user text message and triggers simulated agent response
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
@@ -35,6 +35,27 @@ class MessageCubit extends Cubit<MessageState> {
     // Add user message
     final userMessage = Message.fromUser(text.trim());
     _repository.addMessage(userMessage);
+
+    // Update state with user message and show agent typing indicator
+    emit(MessageLoaded(
+      messages: _repository.getMessages(),
+      isAgentTyping: true,
+    ));
+
+    // Simulate agent response after random delay
+    await _simulateAgentResponse();
+  }
+
+  /// Sends a user image message and triggers simulated agent response
+  Future<void> sendImageMessage(String imagePath) async {
+    final currentState = state;
+    if (currentState is! MessageLoaded) {
+      emit(const MessageLoaded(messages: []));
+    }
+
+    // Add user image message
+    final imageMessage = Message.imageFromUser(imagePath);
+    _repository.addMessage(imageMessage);
 
     // Update state with user message and show agent typing indicator
     emit(MessageLoaded(
@@ -75,4 +96,3 @@ class MessageCubit extends Cubit<MessageState> {
     emit(const MessageLoaded(messages: []));
   }
 }
-

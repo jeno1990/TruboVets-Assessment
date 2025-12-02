@@ -71,8 +71,11 @@ class _ChatPageState extends State<ChatPage> {
                 state is MessageLoaded && state.isAgentTyping;
 
             return MessageInput(
-              onSend: (text) {
+              onSendText: (text) {
                 context.read<MessageCubit>().sendMessage(text);
+              },
+              onSendImage: (imagePath) {
+                context.read<MessageCubit>().sendImageMessage(imagePath);
               },
               isDisabled: isAgentTyping,
             );
@@ -112,7 +115,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Send a message to chat with our support agent',
+            'Send a message or image to chat with our support agent',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -139,4 +142,3 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 }
-
