@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
+  isOpen = false;
 
+  toggle() {
+    this.isOpen = !this.isOpen;
+  }
+
+  close() {
+    this.isOpen = false;
+  }
 }
