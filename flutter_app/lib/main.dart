@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_shell.dart';
 import 'core/constants/app_constants.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_cubit.dart';
 import 'features/messaging/data/repositories/message_repository_impl.dart';
 import 'features/messaging/presentation/state/message_cubit.dart';
 
@@ -17,19 +18,28 @@ class TurboVetsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          MessageCubit(repository: MessageRepositoryImpl())..loadMessages(),
-      child: MaterialApp(
-        title: AppConstants.appName,
-        debugShowCheckedModeBanner: false,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(
+          create: (_) =>
+              MessageCubit(repository: MessageRepositoryImpl())..loadMessages(),
+        ),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, themeMode) {
+          return MaterialApp(
+            title: AppConstants.appName,
+            debugShowCheckedModeBanner: false,
 
-        // Theme configuration - follows system dark/light mode
-        theme: AppTheme.light,
-        darkTheme: AppTheme.dark,
-        themeMode: ThemeMode.system,
+            // Theme configuration
+            theme: AppTheme.light,
+            darkTheme: AppTheme.dark,
+            themeMode: themeMode,
 
-        home: const AppShell(),
+            home: const AppShell(),
+          );
+        },
       ),
     );
   }
