@@ -1,1 +1,82 @@
-<p>ticket-viewer works!</p>
+<div class="bg-white shadow rounded-lg p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Support Tickets</h2>
+    <div class="flex space-x-2">
+      <button (click)="filterTickets('All')"
+        [class.bg-blue-600]="currentFilter === 'All'"
+        [class.text-white]="currentFilter === 'All'"
+        [class.bg-gray-200]="currentFilter !== 'All'"
+        [class.text-gray-700]="currentFilter !== 'All'"
+        class="px-4 py-2 rounded transition-colors">
+        All
+      </button>
+      <button (click)="filterTickets('Open')"
+        [class.bg-blue-600]="currentFilter === 'Open'"
+        [class.text-white]="currentFilter === 'Open'"
+        [class.bg-gray-200]="currentFilter !== 'Open'"
+        [class.text-gray-700]="currentFilter !== 'Open'"
+        class="px-4 py-2 rounded transition-colors">
+        Open
+      </button>
+      <button (click)="filterTickets('In Progress')"
+        [class.bg-blue-600]="currentFilter === 'In Progress'"
+        [class.text-white]="currentFilter === 'In Progress'"
+        [class.bg-gray-200]="currentFilter !== 'In Progress'"
+        [class.text-gray-700]="currentFilter !== 'In Progress'"
+        class="px-4 py-2 rounded transition-colors">
+        In Progress
+      </button>
+      <button (click)="filterTickets('Closed')"
+        [class.bg-blue-600]="currentFilter === 'Closed'"
+        [class.text-white]="currentFilter === 'Closed'"
+        [class.bg-gray-200]="currentFilter !== 'Closed'"
+        [class.text-gray-700]="currentFilter !== 'Closed'"
+        class="px-4 py-2 rounded transition-colors">
+        Closed
+      </button>
+    </div>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full leading-normal">
+      <thead>
+        <tr>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            ID
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Subject
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Status
+          </th>
+          <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+            Created At
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of filteredTickets">
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ ticket.id }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ ticket.subject }}</p>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <span class="relative inline-block px-3 py-1 font-semibold leading-tight rounded-full" [ngClass]="getStatusClass(ticket.status)">
+              <span aria-hidden="true" class="absolute inset-0 opacity-50 rounded-full"></span>
+              <span class="relative">{{ ticket.status }}</span>
+            </span>
+          </td>
+          <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p class="text-gray-900 whitespace-no-wrap">{{ ticket.createdAt | date:'short' }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="filteredTickets.length === 0" class="p-4 text-center text-gray-500">
+      No tickets found.
+    </div>
+  </div>
+</div>
