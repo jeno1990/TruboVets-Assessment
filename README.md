@@ -1,4 +1,4 @@
-# TurboVets - Messaging App with Embedded Internal Tools Dashboard
+# Messaging App with Embedded Internal Tools Dashboard
 
 A full-stack mobile application featuring a native Flutter messaging interface with an embedded Angular + Tailwind CSS internal tools dashboard, served via WebView.
 
