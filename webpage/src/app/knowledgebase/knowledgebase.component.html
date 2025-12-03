@@ -16,15 +16,33 @@
     </div>
   </div>
 
-  <div class="flex-1 relative border rounded-lg overflow-hidden">
+  <div class="flex-1 border rounded-lg overflow-hidden flex flex-col">
+    <!-- Toolbar -->
+    <div *ngIf="!isPreviewMode" class="bg-gray-50 border-b p-2 flex space-x-2 overflow-x-auto">
+      <button (click)="insertText('**', '**')" class="p-2 hover:bg-gray-200 rounded" title="Bold">
+        <span class="font-bold">B</span>
+      </button>
+      <button (click)="insertText('*', '*')" class="p-2 hover:bg-gray-200 rounded" title="Italic">
+        <span class="italic">I</span>
+      </button>
+      <button (click)="insertText('# ', '')" class="p-2 hover:bg-gray-200 rounded" title="Heading">
+        <span class="font-bold">H</span>
+      </button>
+      <button (click)="insertText('- ', '')" class="p-2 hover:bg-gray-200 rounded" title="List">
+        <span>•</span>
+      </button>
+      <button (click)="insertText('[', '](url)')" class="p-2 hover:bg-gray-200 rounded" title="Link">
+        <span class="underline">Link</span>
+      </button>
+    </div>
+
     <textarea *ngIf="!isPreviewMode"
       [(ngModel)]="content"
-      class="w-full h-full p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="flex-1 w-full p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
       placeholder="Type your markdown here..."></textarea>
     
-    <div *ngIf="isPreviewMode" class="w-full h-full p-4 overflow-auto prose max-w-none">
-      <!-- Minimal preview: just preserving whitespace. For real markdown, we'd use a library. -->
-      <pre class="whitespace-pre-wrap font-sans">{{ content }}</pre>
+    <div *ngIf="isPreviewMode" class="flex-1 w-full p-4 overflow-auto prose max-w-none bg-white">
+      <markdown [data]="content"></markdown>
     </div>
   </div>
 </div>
