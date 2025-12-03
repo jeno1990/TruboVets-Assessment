@@ -23,50 +23,54 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _currentIndex == 0
-              ? AppConstants.messagesLabel
-              : AppConstants.dashboardLabel,
+    return SafeArea(
+      child: Scaffold(
+        appBar: _currentIndex == 0
+            ? AppBar(
+                title: Text(
+                  _currentIndex == 0
+                      ? AppConstants.messagesLabel
+                      : AppConstants.dashboardLabel,
+                ),
+                // actions: [
+                //   if (_currentIndex == 0)
+                //     BlocBuilder<MessageCubit, MessageState>(
+                //       builder: (context, state) {
+                //         final hasMessages =
+                //             state is MessageLoaded && state.messages.isNotEmpty;
+
+                //         if (!hasMessages) return const SizedBox.shrink();
+
+                //         return IconButton(
+                //           onPressed: () => _showClearMessagesDialog(context),
+                //           icon: const Icon(Icons.delete_outline_rounded),
+                //           tooltip: 'Clear messages',
+                //         );
+                //       },
+                //     ),
+                // ],
+              )
+            : null,
+        drawer: _buildSettingsDrawer(context),
+        body: IndexedStack(index: _currentIndex, children: _pages),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: (index) {
+            setState(() => _currentIndex = index);
+          },
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.chat_bubble_outline_rounded),
+              selectedIcon: Icon(Icons.chat_bubble_rounded),
+              label: AppConstants.messagesLabel,
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.dashboard_outlined),
+              selectedIcon: Icon(Icons.dashboard_rounded),
+              label: AppConstants.dashboardLabel,
+            ),
+          ],
         ),
-        // actions: [
-        //   if (_currentIndex == 0)
-        //     BlocBuilder<MessageCubit, MessageState>(
-        //       builder: (context, state) {
-        //         final hasMessages =
-        //             state is MessageLoaded && state.messages.isNotEmpty;
-
-        //         if (!hasMessages) return const SizedBox.shrink();
-
-        //         return IconButton(
-        //           onPressed: () => _showClearMessagesDialog(context),
-        //           icon: const Icon(Icons.delete_outline_rounded),
-        //           tooltip: 'Clear messages',
-        //         );
-        //       },
-        //     ),
-        // ],
-      ),
-      drawer: _buildSettingsDrawer(context),
-      body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() => _currentIndex = index);
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.chat_bubble_outline_rounded),
-            selectedIcon: Icon(Icons.chat_bubble_rounded),
-            label: AppConstants.messagesLabel,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined),
-            selectedIcon: Icon(Icons.dashboard_rounded),
-            label: AppConstants.dashboardLabel,
-          ),
-        ],
       ),
     );
   }

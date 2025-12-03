@@ -1,30 +1,85 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
+// Basic widget smoke test for TurboVets app.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_app/main.dart';
+import 'package:flutter_app/app_shell.dart';
+import 'package:flutter_app/core/theme/theme_cubit.dart';
+import 'package:flutter_app/features/messaging/data/repositories/message_repository_impl.dart';
+import 'package:flutter_app/features/messaging/presentation/state/message_cubit.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App shell renders with bottom navigation', (
+    WidgetTester tester,
+  ) async {
+    // Build app with required providers
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+          BlocProvider<MessageCubit>(
+            create: (_) => MessageCubit(repository: MessageRepositoryImpl()),
+          ),
+        ],
+        child: const MaterialApp(home: AppShell()),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify bottom navigation exists
+    expect(find.byType(NavigationBar), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify both navigation destinations exist
+    expect(find.text('Messages'), findsOneWidget);
+    expect(find.text('Dashboard'), findsOneWidget);
+  });
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  testWidgets('Messages tab shows empty state initially', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+          BlocProvider<MessageCubit>(
+            create: (_) =>
+                MessageCubit(repository: MessageRepositoryImpl())
+                  ..loadMessages(),
+          ),
+        ],
+        child: const MaterialApp(home: AppShell()),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    // Verify empty state message
+    expect(find.text('Start a Conversation'), findsOneWidget);
+  });
+
+  testWidgets('Can switch between tabs', (WidgetTester tester) async {
+    await tester.pumpWidget(
+      MultiBlocProvider(
+        providers: [
+          BlocProvider<ThemeCubit>(create: (_) => ThemeCubit()),
+          BlocProvider<MessageCubit>(
+            create: (_) =>
+                MessageCubit(repository: MessageRepositoryImpl())
+                  ..loadMessages(),
+          ),
+        ],
+        child: const MaterialApp(home: AppShell()),
+      ),
+    );
+
+    // Initially on Messages tab
+    expect(find.text('Messages'), findsNWidgets(2)); // Title + Nav item
+
+    // Tap Dashboard tab
+    await tester.tap(find.text('Dashboard'));
+    await tester.pumpAndSettle();
+
+    // AppBar should now show Dashboard
+    expect(find.widgetWithText(AppBar, 'Dashboard'), findsOneWidget);
   });
 }
