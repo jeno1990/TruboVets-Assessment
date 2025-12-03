@@ -1,13 +1,13 @@
 <div class="bg-white shadow rounded-lg p-6">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-2xl font-bold text-gray-800">Support Tickets</h2>
-    <div class="flex space-x-2">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <h2 class="text-xl md:text-2xl font-bold text-gray-800">Support Tickets</h2>
+    <div class="flex flex-wrap gap-2">
       <button (click)="filterTickets('All')"
         [class.bg-blue-600]="currentFilter === 'All'"
         [class.text-white]="currentFilter === 'All'"
         [class.bg-gray-200]="currentFilter !== 'All'"
         [class.text-gray-700]="currentFilter !== 'All'"
-        class="px-4 py-2 rounded transition-colors">
+        class="px-4 py-2 rounded transition-colors text-sm md:text-base">
         All
       </button>
       <button (click)="filterTickets('Open')"
@@ -15,7 +15,7 @@
         [class.text-white]="currentFilter === 'Open'"
         [class.bg-gray-200]="currentFilter !== 'Open'"
         [class.text-gray-700]="currentFilter !== 'Open'"
-        class="px-4 py-2 rounded transition-colors">
+        class="px-4 py-2 rounded transition-colors text-sm md:text-base">
         Open
       </button>
       <button (click)="filterTickets('In Progress')"
@@ -23,7 +23,7 @@
         [class.text-white]="currentFilter === 'In Progress'"
         [class.bg-gray-200]="currentFilter !== 'In Progress'"
         [class.text-gray-700]="currentFilter !== 'In Progress'"
-        class="px-4 py-2 rounded transition-colors">
+        class="px-4 py-2 rounded transition-colors text-sm md:text-base">
         In Progress
       </button>
       <button (click)="filterTickets('Closed')"
@@ -31,7 +31,7 @@
         [class.text-white]="currentFilter === 'Closed'"
         [class.bg-gray-200]="currentFilter !== 'Closed'"
         [class.text-gray-700]="currentFilter !== 'Closed'"
-        class="px-4 py-2 rounded transition-colors">
+        class="px-4 py-2 rounded transition-colors text-sm md:text-base">
         Closed
       </button>
     </div>

@@ -1,27 +1,54 @@
-# InternalDashboard
+# Internal Tools Dashboard (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+This is the Angular-based Internal Tools Dashboard for the TurboVets Assessment. It is designed to be embedded within a Flutter WebView but can also be run standalone.
 
-## Development server
+## Features
+- **Ticket Viewer**: View and filter support tickets.
+- **Knowledgebase Editor**: Create and preview markdown content.
+- **Live Logs**: Monitor real-time system logs.
+- **Responsive Design**: Mobile-friendly layout with collapsible sidebar.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Setup Instructions
 
-## Code scaffolding
+### Prerequisites
+- Node.js (v16 or higher)
+- npm
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Running the Angular App
+1. Navigate to the `webpage` directory:
+   ```bash
+   cd webpage
+   ```
+2. Install dependencies (if not already installed):
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npx ng serve --port 4200
+   ```
+4. Open your browser to `http://localhost:4200`.
 
-## Build
+## Integration with Flutter
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To embed this dashboard in the Flutter app:
 
-## Running unit tests
+1. Ensure the Angular app is running on port 4200.
+2. In your Flutter app, use `webview_flutter` or a similar plugin.
+3. Set the initial URL based on your target device:
+   - **iOS Simulator / Desktop**: `http://localhost:4200`
+   - **Android Emulator**: `http://10.0.2.2:4200`
+   - **Physical Device**: Use your computer's local IP address (e.g., `http://192.168.1.x:4200`).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Example Flutter Code
+```dart
+WebView(
+  initialUrl: 'http://localhost:4200',
+  javascriptMode: JavascriptMode.unrestricted,
+)
+```
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Assumptions & Notes
+- The "Save" button in the Knowledgebase Editor is a mock action and does not persist data to a backend.
+- Live Logs are simulated using random data.
+- Tailwind CSS is used for styling.
