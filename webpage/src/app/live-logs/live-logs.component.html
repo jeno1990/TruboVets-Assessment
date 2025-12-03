@@ -7,7 +7,7 @@
   </div>
 
   <div #logContainer class="flex-1 overflow-y-auto space-y-1 p-2 bg-black rounded">
-    <div *ngFor="let log of logs" class="break-all">
+    <div *ngFor="let log of logs" class="break-all animate-fadeIn">
       <span class="text-green-600 mr-2">&gt;</span>{{ log }}
     </div>
     <div *ngIf="logs.length === 0" class="text-gray-600 italic">
