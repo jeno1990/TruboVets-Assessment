@@ -1,15 +1,13 @@
-/// App-wide constants for the messaging application.
 class AppConstants {
   AppConstants._();
 
-  /// App name displayed in various places
   static const String appName = 'TurboVets';
 
-  /// Simulated agent response delay range (in milliseconds)
+  /// agent response delay range
   static const int minResponseDelay = 2000;
   static const int maxResponseDelay = 3000;
 
-  /// Preset support agent responses for simulation
+  /// Preset agent responses for simulation
   static const List<String> agentResponses = [
     "Thanks for reaching out! How can I help you today?",
     "I understand your concern. Let me look into that for you.",
@@ -32,8 +30,7 @@ class AppConstants {
   static const String messagesLabel = 'Messages';
   static const String dashboardLabel = 'Dashboard';
 
-  /// WebView URL for the Angular dashboard
-  /// Use localhost for iOS simulator, 10.0.2.2 for Android emulator
+  /// localhost for iOS simulator, 10.0.2.2 for Android emulator
   static const String dashboardUrlIOS = 'http://localhost:4200/tickets';
   static const String dashboardUrlAndroid = 'http://10.0.2.2:4200/tickets';
 }

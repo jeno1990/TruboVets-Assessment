@@ -63,8 +63,6 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   String _getDashboardUrl() {
-    // Use 10.0.2.2 for Android emulator (maps to host's localhost)
-    // Use localhost for iOS simulator and physical devices on same network
     if (Platform.isAndroid) {
       return AppConstants.dashboardUrlAndroid;
     }

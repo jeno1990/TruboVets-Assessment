@@ -1,9 +1,6 @@
 import '../../domain/entities/message.dart';
 import '../../domain/repositories/message_repository.dart';
 
-/// In-memory implementation of MessageRepository.
-/// Messages are stored in memory and persist during app session.
-/// Can be extended to use Hive or SQLite for persistent storage.
 class MessageRepositoryImpl implements MessageRepository {
   final List<Message> _messages = [];
 
@@ -22,4 +19,3 @@ class MessageRepositoryImpl implements MessageRepository {
     _messages.clear();
   }
 }
-

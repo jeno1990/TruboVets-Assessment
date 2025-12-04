@@ -8,22 +8,21 @@ import '../../domain/entities/message.dart';
 import '../../domain/repositories/message_repository.dart';
 import 'message_state.dart';
 
-/// Cubit for managing chat message state and operations.
 class MessageCubit extends Cubit<MessageState> {
   final MessageRepository _repository;
   final Random _random = Random();
 
   MessageCubit({required MessageRepository repository})
-      : _repository = repository,
-        super(const MessageInitial());
+    : _repository = repository,
+      super(const MessageInitial());
 
-  /// Loads existing messages from repository
+  // Loads existing messages from repository
   void loadMessages() {
     final messages = _repository.getMessages();
     emit(MessageLoaded(messages: messages));
   }
 
-  /// Sends a user text message and triggers simulated agent response
+  // Sends a user text message and triggers simulated agent response
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
 
@@ -37,10 +36,9 @@ class MessageCubit extends Cubit<MessageState> {
     _repository.addMessage(userMessage);
 
     // Update state with user message and show agent typing indicator
-    emit(MessageLoaded(
-      messages: _repository.getMessages(),
-      isAgentTyping: true,
-    ));
+    emit(
+      MessageLoaded(messages: _repository.getMessages(), isAgentTyping: true),
+    );
 
     // Simulate agent response after random delay
     await _simulateAgentResponse();
@@ -58,10 +56,9 @@ class MessageCubit extends Cubit<MessageState> {
     _repository.addMessage(imageMessage);
 
     // Update state with user message and show agent typing indicator
-    emit(MessageLoaded(
-      messages: _repository.getMessages(),
-      isAgentTyping: true,
-    ));
+    emit(
+      MessageLoaded(messages: _repository.getMessages(), isAgentTyping: true),
+    );
 
     // Simulate agent response after random delay
     await _simulateAgentResponse();
@@ -70,9 +67,11 @@ class MessageCubit extends Cubit<MessageState> {
   /// Simulates an agent response with random delay and message
   Future<void> _simulateAgentResponse() async {
     // Random delay between min and max
-    final delay = AppConstants.minResponseDelay +
+    final delay =
+        AppConstants.minResponseDelay +
         _random.nextInt(
-            AppConstants.maxResponseDelay - AppConstants.minResponseDelay);
+          AppConstants.maxResponseDelay - AppConstants.minResponseDelay,
+        );
 
     await Future.delayed(Duration(milliseconds: delay));
 
@@ -84,10 +83,9 @@ class MessageCubit extends Cubit<MessageState> {
     _repository.addMessage(agentMessage);
 
     // Update state with agent message and hide typing indicator
-    emit(MessageLoaded(
-      messages: _repository.getMessages(),
-      isAgentTyping: false,
-    ));
+    emit(
+      MessageLoaded(messages: _repository.getMessages(), isAgentTyping: false),
+    );
   }
 
   /// Clears all messages

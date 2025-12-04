@@ -3,24 +3,13 @@ import 'package:equatable/equatable.dart';
 /// Type of message content
 enum MessageType { text, image }
 
-/// Represents a chat message in the messaging feature.
 class Message extends Equatable {
   /// Unique identifier for the message
   final String id;
-
-  /// The message text content (empty for image-only messages)
   final String text;
-
-  /// Whether this message was sent by the user (true) or agent (false)
   final bool isFromUser;
-
-  /// Timestamp when the message was created
   final DateTime timestamp;
-
-  /// Type of message (text or image)
   final MessageType type;
-
-  /// Local file path for image messages (null for text messages)
   final String? imagePath;
 
   const Message({

@@ -23,16 +23,10 @@ class MessageLoaded extends MessageState {
   /// Whether the agent is currently "typing" a response
   final bool isAgentTyping;
 
-  const MessageLoaded({
-    required this.messages,
-    this.isAgentTyping = false,
-  });
+  const MessageLoaded({required this.messages, this.isAgentTyping = false});
 
   /// Creates a copy with optional parameter overrides
-  MessageLoaded copyWith({
-    List<Message>? messages,
-    bool? isAgentTyping,
-  }) {
+  MessageLoaded copyWith({List<Message>? messages, bool? isAgentTyping}) {
     return MessageLoaded(
       messages: messages ?? this.messages,
       isAgentTyping: isAgentTyping ?? this.isAgentTyping,
@@ -42,4 +36,3 @@ class MessageLoaded extends MessageState {
   @override
   List<Object?> get props => [messages, isAgentTyping];
 }
-

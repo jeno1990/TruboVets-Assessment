@@ -2,7 +2,7 @@
 
 A full-stack mobile application featuring a native Flutter messaging interface with an embedded Angular + Tailwind CSS internal tools dashboard, served via WebView.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -44,7 +44,7 @@ The app automatically detects the platform and uses the correct URL.
 
 ---
 
-## 📖 Project Overview
+## Project Overview
 
 This project demonstrates cross-technology integration between:
 
@@ -63,99 +63,77 @@ This balance maintains testability and separation of concerns while avoiding ove
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Flutter App Structure
 
 ```
 flutter_app/lib/
-├── main.dart                          # App entry point, Hive & BLoC setup
-├── app_shell.dart                     # Main scaffold with navigation & drawer
 ├── core/
-│   ├── constants/
-│   │   └── app_constants.dart         # App-wide constants, URLs, responses
-│   └── theme/
-│       ├── app_theme.dart             # Light/Dark theme definitions
-│       └── theme_cubit.dart           # Theme state management
+│   ├── constants/          # App-wide constants, URLs, responses
+│   └── theme/              # Light/Dark theme definitions & ThemeCubit
 └── features/
     ├── messaging/
     │   ├── domain/
-    │   │   ├── entities/
-    │   │   │   └── message.dart       # Message entity (text/image support)
-    │   │   └── repositories/
-    │   │       └── message_repository.dart  # Repository interface
+    │   │   ├── entities/       # Message entity
+    │   │   └── repositories/   # Repository interface
     │   ├── data/
-    │   │   ├── adapters/
-    │   │   │   └── message_adapter.dart     # Hive TypeAdapter
-    │   │   └── repositories/
-    │   │       └── hive_message_repository.dart  # Hive implementation
+    │   │   ├── adapters/       # Hive TypeAdapter
+    │   │   └── repositories/   # Hive implementation
     │   └── presentation/
-    │       ├── pages/
-    │       │   └── chat_page.dart     # Main chat screen
-    │       ├── state/
-    │       │   ├── message_cubit.dart # Message state management
-    │       │   └── message_state.dart # State classes
-    │       └── widgets/
-    │           ├── chat_bubble.dart   # Message bubble (text/image)
-    │           └── message_input.dart # Input with image picker
+    │       ├── pages/          # Chat screen
+    │       ├── state/          # MessageCubit & states
+    │       └── widgets/        # Chat bubble, message input
     └── dashboard_webview/
         └── presentation/
-            └── pages/
-                └── dashboard_page.dart  # WebView with error handling
+            └── pages/          # WebView with error handling
 ```
 
 ### Angular Dashboard Structure
 
 ```
 webpage/src/app/
-├── app.module.ts
-├── app-routing.module.ts
-├── app.component.*
-├── sidebar/                    # Navigation sidebar
-├── ticket-viewer/              # Support tickets module
-├── knowledgebase/              # Markdown editor module
-├── live-logs/                  # Real-time logs module
-└── mock-data.service.ts        # Shared dummy data service
+├── sidebar/                # Navigation sidebar
+├── ticket-viewer/          # Support tickets module
+├── knowledgebase/          # Markdown editor module
+├── live-logs/              # Real-time logs module
+└── mock-data.service.ts    # Shared dummy data service
 ```
 
 ---
 
-## ✨ Features
+## Features
 
 ### Flutter App
 
-| Feature                 | Description                                             |
-| ----------------------- | ------------------------------------------------------- |
-| **Native Chat UI**      | Incoming/outgoing chat bubbles with avatars             |
-| **Timestamps**          | Human-readable timestamps (today shows time only)       |
-| **Auto-Scroll**         | Automatically scrolls to latest message                 |
-| **Simulated Agent**     | Random responses from preset list with typing indicator |
-| **Image Messages**      | Send images from camera or gallery                      |
-| **Emoji Support**       | Native keyboard emoji support                           |
-| **Message Persistence** | Chat history saved with Hive (survives app restart)     |
-| **Dark Mode**           | Toggle via settings drawer (Light/Dark/System)          |
-| **WebView Dashboard**   | Embedded Angular app with loading & error states        |
-| **Bottom Navigation**   | Switch between Messages and Dashboard tabs              |
+- **Native Chat UI** - Incoming/outgoing chat bubbles with avatars
+- **Timestamps** - Human-readable timestamps (today shows time only)
+- **Auto-Scroll** - Automatically scrolls to latest message
+- **Simulated Agent** - Random responses from preset list with typing indicator
+- **Image Messages** - Send images from camera or gallery
+- **Emoji Support** - Native keyboard emoji support
+- **Message Persistence** - Chat history saved with Hive (survives app restart)
+- **Dark Mode** - Toggle via settings drawer (Light/Dark/System)
+- **WebView Dashboard** - Embedded Angular app with loading & error states
+- **Bottom Navigation** - Switch between Messages and Dashboard tabs
 
 ### Angular Dashboard
 
-| Module                   | Features                                                                 |
-| ------------------------ | ------------------------------------------------------------------------ |
-| **Ticket Viewer**        | Table with dummy tickets, filterable by status (Open/In Progress/Closed) |
-| **Knowledgebase Editor** | Custom markdown editor with live preview (ngx-markdown)                  |
-| **Live Logs Panel**      | Simulated real-time logs with auto-scroll and smooth animations          |
-| **Sidebar Navigation**   | Angular routing between modules                                          |
-| **Responsive Design**    | Mobile-first, optimized for WebView viewport                             |
+- **Ticket Viewer** - Table with dummy tickets, filterable by status (Open/In Progress/Closed)
+- **Knowledgebase Editor** - Custom markdown editor with live preview (ngx-markdown)
+- **Live Logs Panel** - Simulated real-time logs with auto-scroll and smooth animations
+- **Sidebar Navigation** - Angular routing between modules
+- **Responsive Design** - Mobile-first, optimized for WebView viewport
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Flutter App
 
 | Package           | Version | Purpose                           |
 | ----------------- | ------- | --------------------------------- |
-| `flutter_bloc`    | 8.1.6   | State management (Cubit pattern)  |
+| `flutter_bloc`    | 8.1.6   | State management (Cubit)          |
 | `equatable`       | 2.0.7   | Value equality for state classes  |
 | `hive_ce`         | 2.11.3  | Local storage (Community Edition) |
 | `hive_ce_flutter` | 2.2.0   | Flutter bindings for Hive         |
@@ -174,7 +152,7 @@ webpage/src/app/
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### WebView URLs
 
@@ -184,18 +162,6 @@ URLs are configured in `flutter_app/lib/core/constants/app_constants.dart`:
 static const String dashboardUrlIOS = 'http://localhost:4200';
 static const String dashboardUrlAndroid = 'http://10.0.2.2:4200';
 ```
-
-### Platform Permissions
-
-**iOS** (`ios/Runner/Info.plist`):
-
-- Camera and Photo Library access for image messages
-- Local networking enabled for HTTP WebView
-
-**Android** (`android/app/src/main/AndroidManifest.xml`):
-
-- Internet permission
-- Network security config for localhost/10.0.2.2
 
 ---
 
@@ -211,15 +177,15 @@ static const String dashboardUrlAndroid = 'http://10.0.2.2:4200';
 
 ## Bonus Features Implemented
 
-- ✅ Message persistence (Hive)
-- ✅ Emoji support (native keyboard)
-- ✅ Image messages (camera + gallery)
-- ✅ Dark mode toggle
-- ✅ Log animations in Live Logs panel
-- ✅ Markdown preview in Knowledgebase editor
-- ✅ Typing indicator animation
-- ✅ WebView error handling with retry
-- ✅ Unit tests for Flutter app (Cubits, Entities, Repository)
+- Message persistence (Hive)
+- Emoji support (native keyboard)
+- Image messages (camera + gallery)
+- Dark mode toggle
+- Log animations in Live Logs panel
+- Markdown preview in Knowledgebase editor
+- Typing indicator animation
+- WebView error handling with retry
+- Unit tests for Flutter app (Cubits, Entities, Repository)
 
 ---
 
@@ -249,10 +215,6 @@ flutter test
 | --------------------------------------- | --------------------------------------- |
 | ![Chat Page](screenshots/chat_page.png) | ![Dark Mode](screenshots/dark_mode.png) |
 
-| Connection Error                                              |
-| ------------------------------------------------------------- |
-| ![Connection Error](screenshots/connection_error_message.png) |
-
 ### Angular Dashboard (in WebView)
 
 | Dashboard                                       | Knowledgebase Editor                                   |
@@ -262,6 +224,12 @@ flutter test
 | Live Logs Panel                                  |
 | ------------------------------------------------ |
 | ![Live Logs](screenshots/logs_screen_mobile.png) |
+
+### Error Handling
+
+| Connection Error                                              |
+| ------------------------------------------------------------- |
+| ![Connection Error](screenshots/connection_error_message.png) |
 
 ---
 

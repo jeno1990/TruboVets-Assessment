@@ -2,8 +2,6 @@ import 'package:hive_ce/hive.dart';
 
 import '../../domain/entities/message.dart';
 
-/// Hive TypeAdapter for Message entity.
-/// Manually implemented to avoid code generation complexity.
 class MessageAdapter extends TypeAdapter<Message> {
   @override
   final int typeId = 0;

@@ -67,8 +67,7 @@ class _ChatPageState extends State<ChatPage> {
         ),
         BlocBuilder<MessageCubit, MessageState>(
           builder: (context, state) {
-            final isAgentTyping =
-                state is MessageLoaded && state.isAgentTyping;
+            final isAgentTyping = state is MessageLoaded && state.isAgentTyping;
 
             return MessageInput(
               onSendText: (text) {
@@ -109,16 +108,16 @@ class _ChatPageState extends State<ChatPage> {
           Text(
             'Start a Conversation',
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: colorScheme.onSurface,
-                  fontWeight: FontWeight.w600,
-                ),
+              color: colorScheme.onSurface,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
             'Send a message or image to chat with our support agent',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
-                ),
+              color: colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
         ],

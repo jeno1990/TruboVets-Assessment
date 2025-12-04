@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
 
-  // Brand colors
+  // colors
   static const Color _primarySeed = Color(0xFF1E88E5); // Blue
   static const Color _secondarySeed = Color(0xFF26A69A); // Teal
 
@@ -54,9 +54,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
@@ -106,9 +104,7 @@ class AppTheme {
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
     );
   }
@@ -131,4 +127,3 @@ extension ChatColors on ColorScheme {
   /// Timestamp text color
   Color get timestampColor => onSurfaceVariant.withOpacity(0.7);
 }
-

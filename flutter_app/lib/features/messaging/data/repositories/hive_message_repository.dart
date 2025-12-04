@@ -3,8 +3,6 @@ import 'package:hive_ce/hive.dart';
 import '../../domain/entities/message.dart';
 import '../../domain/repositories/message_repository.dart';
 
-/// Hive-based implementation of MessageRepository.
-/// Persists messages to local storage using Hive.
 class HiveMessageRepository implements MessageRepository {
   static const String _boxName = 'messages';
 
@@ -17,7 +15,9 @@ class HiveMessageRepository implements MessageRepository {
 
   Box<Message> get _messagesBox {
     if (_box == null || !_box!.isOpen) {
-      throw StateError('HiveMessageRepository not initialized. Call init() first.');
+      throw StateError(
+        'HiveMessageRepository not initialized. Call init() first.',
+      );
     }
     return _box!;
   }
@@ -38,4 +38,3 @@ class HiveMessageRepository implements MessageRepository {
     _messagesBox.clear();
   }
 }
-

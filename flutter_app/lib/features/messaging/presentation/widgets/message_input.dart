@@ -4,13 +4,11 @@ import 'package:image_picker/image_picker.dart';
 /// A text input widget for composing and sending messages.
 /// Supports both text and image messages.
 class MessageInput extends StatefulWidget {
-  /// Callback when a text message is sent
+  /// Callbacks
   final void Function(String message) onSendText;
 
-  /// Callback when an image is selected
   final void Function(String imagePath) onSendImage;
 
-  /// Whether the send button should be disabled
   final bool isDisabled;
 
   const MessageInput({

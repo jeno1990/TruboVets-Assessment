@@ -6,15 +6,10 @@ import 'package:intl/intl.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../domain/entities/message.dart';
 
-/// A chat bubble widget that displays a message with appropriate styling
-/// for user and agent messages. Supports both text and image messages.
 class ChatBubble extends StatelessWidget {
   final Message message;
 
-  const ChatBubble({
-    super.key,
-    required this.message,
-  });
+  const ChatBubble({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +19,18 @@ class ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
-        mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) _buildAvatar(context),
           const SizedBox(width: 8),
           Flexible(
             child: Column(
-              crossAxisAlignment:
-                  isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: isUser
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: [
                 Container(
                   constraints: BoxConstraints(
@@ -145,10 +142,7 @@ class ChatBubble extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.file(
-                File(imagePath),
-                fit: BoxFit.contain,
-              ),
+              child: Image.file(File(imagePath), fit: BoxFit.contain),
             ),
             Padding(
               padding: const EdgeInsets.all(8),
@@ -173,8 +167,9 @@ class ChatBubble extends StatelessWidget {
 
     return CircleAvatar(
       radius: 16,
-      backgroundColor:
-          isUser ? colorScheme.primaryContainer : colorScheme.secondaryContainer,
+      backgroundColor: isUser
+          ? colorScheme.primaryContainer
+          : colorScheme.secondaryContainer,
       child: Icon(
         isUser ? Icons.person : Icons.support_agent,
         size: 18,
@@ -188,8 +183,11 @@ class ChatBubble extends StatelessWidget {
   String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final messageDate =
-        DateTime(timestamp.year, timestamp.month, timestamp.day);
+    final messageDate = DateTime(
+      timestamp.year,
+      timestamp.month,
+      timestamp.day,
+    );
 
     if (messageDate == today) {
       return DateFormat.jm().format(timestamp);
@@ -266,8 +264,8 @@ class _TypingIndicatorState extends State<TypingIndicator>
                   mainAxisSize: MainAxisSize.min,
                   children: List.generate(3, (index) {
                     final delay = index * 0.2;
-                    final value =
-                        ((_animation.value + delay) % 1.0 * 2 - 1).abs();
+                    final value = ((_animation.value + delay) % 1.0 * 2 - 1)
+                        .abs();
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 2),
                       child: Transform.translate(
@@ -276,8 +274,9 @@ class _TypingIndicatorState extends State<TypingIndicator>
                           width: 8,
                           height: 8,
                           decoration: BoxDecoration(
-                            color: colorScheme.onSurfaceVariant
-                                .withOpacity(0.4 + 0.4 * value),
+                            color: colorScheme.onSurfaceVariant.withOpacity(
+                              0.4 + 0.4 * value,
+                            ),
                             shape: BoxShape.circle,
                           ),
                         ),
