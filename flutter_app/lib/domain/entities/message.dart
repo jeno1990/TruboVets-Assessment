@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 enum MessageType { text, image }
 
 class Message extends Equatable {
-  /// Unique identifier for the message
   final String id;
   final String text;
   final bool isFromUser;
@@ -21,7 +20,6 @@ class Message extends Equatable {
     this.imagePath,
   });
 
-  /// Creates a user text message with auto-generated ID and current timestamp
   factory Message.fromUser(String text) {
     return Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -44,7 +42,6 @@ class Message extends Equatable {
     );
   }
 
-  /// Creates an agent text message with auto-generated ID and current timestamp
   factory Message.fromAgent(String text) {
     return Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -54,11 +51,8 @@ class Message extends Equatable {
       type: MessageType.text,
     );
   }
-
-  /// Whether this is an image message
   bool get isImage => type == MessageType.image;
 
-  /// Whether this is a text message
   bool get isText => type == MessageType.text;
 
   @override

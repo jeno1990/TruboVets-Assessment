@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:flutter_app/features/messaging/domain/entities/message.dart';
-import 'package:flutter_app/features/messaging/domain/repositories/message_repository.dart';
-import 'package:flutter_app/features/messaging/presentation/state/message_cubit.dart';
-import 'package:flutter_app/features/messaging/presentation/state/message_state.dart';
+import 'package:flutter_app/domain/entities/message.dart';
+import 'package:flutter_app/domain/repositories/message_repository.dart';
+import 'package:flutter_app/presentation/state/message_cubit.dart';
+import 'package:flutter_app/presentation/state/message_state.dart';
 
 class MockMessageRepository extends Mock implements MessageRepository {}
 
@@ -80,27 +80,32 @@ void main() {
 
         await cubit.sendMessage('Hello');
 
-        verify(() => mockRepository.addMessage(any())).called(2); // User + Agent
+        verify(
+          () => mockRepository.addMessage(any()),
+        ).called(2); // User + Agent
       });
 
-      test('should show typing indicator while waiting for agent response', () async {
-        when(() => mockRepository.getMessages()).thenReturn([]);
-        when(() => mockRepository.addMessage(any())).thenReturn(null);
+      test(
+        'should show typing indicator while waiting for agent response',
+        () async {
+          when(() => mockRepository.getMessages()).thenReturn([]);
+          when(() => mockRepository.addMessage(any())).thenReturn(null);
 
-        // Start sending but don't await
-        final future = cubit.sendMessage('Hello');
+          // Start sending but don't await
+          final future = cubit.sendMessage('Hello');
 
-        // Check intermediate state (typing indicator)
-        await Future.delayed(const Duration(milliseconds: 100));
-        if (cubit.state is MessageLoaded) {
-          expect((cubit.state as MessageLoaded).isAgentTyping, true);
-        }
+          // Check intermediate state (typing indicator)
+          await Future.delayed(const Duration(milliseconds: 100));
+          if (cubit.state is MessageLoaded) {
+            expect((cubit.state as MessageLoaded).isAgentTyping, true);
+          }
 
-        await future;
+          await future;
 
-        // After completion, typing should be false
-        expect((cubit.state as MessageLoaded).isAgentTyping, false);
-      });
+          // After completion, typing should be false
+          expect((cubit.state as MessageLoaded).isAgentTyping, false);
+        },
+      );
 
       test('should emit MessageLoaded after sending', () async {
         final userMessage = Message.fromUser('Hello');
@@ -120,7 +125,9 @@ void main() {
 
         await cubit.sendImageMessage('/path/to/image.jpg');
 
-        verify(() => mockRepository.addMessage(any())).called(2); // Image + Agent
+        verify(
+          () => mockRepository.addMessage(any()),
+        ).called(2); // Image + Agent
       });
 
       test('should trigger agent response after image', () async {
@@ -181,4 +188,3 @@ void main() {
     });
   });
 }
-

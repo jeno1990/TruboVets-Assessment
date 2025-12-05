@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/constants/app_constants.dart';
 import 'core/theme/theme_cubit.dart';
-import 'features/dashboard_webview/presentation/pages/dashboard_page.dart';
-import 'features/messaging/presentation/pages/chat_page.dart';
-import 'features/messaging/presentation/state/message_cubit.dart';
-import 'features/messaging/presentation/state/message_state.dart';
+import 'presentation/pages/dashboard_page.dart';
+import 'presentation/pages/chat_page.dart';
+import 'presentation/state/message_cubit.dart';
+import 'presentation/state/message_state.dart';
 
 /// The main app shell with bottom navigation and settings drawer.
 class AppShell extends StatefulWidget {

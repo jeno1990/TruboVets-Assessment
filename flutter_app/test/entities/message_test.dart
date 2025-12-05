@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_app/features/messaging/domain/entities/message.dart';
+import 'package:flutter_app/domain/entities/message.dart';
 
 void main() {
   group('Message Entity', () {
@@ -152,4 +152,3 @@ void main() {
     });
   });
 }
-

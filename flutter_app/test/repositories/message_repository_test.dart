@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_app/features/messaging/domain/entities/message.dart';
-import 'package:flutter_app/features/messaging/domain/repositories/message_repository.dart';
-import 'package:flutter_app/features/messaging/data/repositories/message_repository_impl.dart';
+import 'package:flutter_app/domain/entities/message.dart';
+import 'package:flutter_app/domain/repositories/message_repository.dart';
+import 'package:flutter_app/data/repositories/inmemory_meesage_repository.dart';
 
 void main() {
   group('MessageRepositoryImpl', () {
@@ -21,7 +21,10 @@ void main() {
       test('should return unmodifiable list', () {
         final messages = repository.getMessages();
 
-        expect(() => messages.add(Message.fromUser('Test')), throwsA(isA<UnsupportedError>()));
+        expect(
+          () => messages.add(Message.fromUser('Test')),
+          throwsA(isA<UnsupportedError>()),
+        );
       });
     });
 
@@ -120,4 +123,3 @@ void main() {
     });
   });
 }
-

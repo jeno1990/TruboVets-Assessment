@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_app/app_shell.dart';
 import 'package:flutter_app/core/theme/theme_cubit.dart';
-import 'package:flutter_app/features/messaging/data/repositories/message_repository_impl.dart';
-import 'package:flutter_app/features/messaging/presentation/state/message_cubit.dart';
+import 'package:flutter_app/data/repositories/inmemory_meesage_repository.dart';
+import 'package:flutter_app/presentation/state/message_cubit.dart';
 
 void main() {
   testWidgets('App shell renders with bottom navigation', (

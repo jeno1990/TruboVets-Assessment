@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../../core/constants/app_constants.dart';
+import '../../core/constants/app_constants.dart';
 
 /// Dashboard page that embeds the Angular Internal Tools Dashboard via WebView.
 class DashboardPage extends StatefulWidget {
@@ -85,8 +85,10 @@ class _DashboardPageState extends State<DashboardPage> {
       _isLoading = true;
       _hasError = false;
       _errorMessage = null;
+      _loadingProgress = 0;
     });
-    _controller.reload();
+    // _controller.reload();
+    _controller.loadRequest(Uri.parse(_getDashboardUrl()));
   }
 
   @override

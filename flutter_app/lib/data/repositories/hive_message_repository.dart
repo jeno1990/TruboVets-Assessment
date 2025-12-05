@@ -15,9 +15,7 @@ class HiveMessageRepository implements MessageRepository {
 
   Box<Message> get _messagesBox {
     if (_box == null || !_box!.isOpen) {
-      throw StateError(
-        'HiveMessageRepository not initialized. Call init() first.',
-      );
+      throw StateError('not initialized. Call init() first.');
     }
     return _box!;
   }

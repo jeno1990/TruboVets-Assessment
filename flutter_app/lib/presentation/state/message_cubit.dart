@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/constants/app_constants.dart';
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/message.dart';
 import '../../domain/repositories/message_repository.dart';
 import 'message_state.dart';
